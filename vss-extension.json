@@ -2,14 +2,14 @@
     "manifestVersion": 1,
     "id": "psake",
     "name": "Psake",
-    "version": "4.5.0",
+    "version": "0.1.2",
     "publisher": "qetza",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],    
-    "description": "",
+    "description": "Tools for building with psake.",
     "categories": [
         "Build and release"
     ],
@@ -17,8 +17,39 @@
         "build",
         "psake"  
     ],
+    "links": {
+        "learn": {
+            "uri": "https://github.com/qetza/vsts-psake-task#readme"
+        },
+        "support": {
+            "uri": "https://github.com/qetza/vsts-psake-task/issues"  
+        },
+        "issues": {
+            "uri": "https://github.com/qetza/vsts-psake-task/issues"  
+        },
+        "repository": {
+            "uri": "https://github.com/qetza/vsts-psake-task"
+        }
+    },
     "icons": {
-        "default": "images/extension-icon.png"        
+        "default": "images/extension-icon.png"
+    },
+    "branding": {
+        "color": "#9BBB59",
+        "theme": "dark"
+    },
+    "screenshots": [
+        {
+            "path": "images/screenshot-01.png"
+        }
+    ],
+    "content": {
+        "details": {
+            "path": "docs/extension-overview.md"
+        },
+        "license": {
+            "path": "LICENSE.txt"
+        }
     },
     "files": [
         {

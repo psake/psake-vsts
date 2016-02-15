@@ -2,7 +2,7 @@
   "id": "A5A8CF40-B907-4F57-9D89-8D34034C3F97",
   "name": "psake",
   "friendlyName": "Psake",
-  "description": "Build with the psake PowerShell build system",
+  "description": "Build with the psake build system",
   "helpMarkDown": "[More Information](https://github.com/psake/vsts-psake-task#readme)",
   "category": "Build",
   "visibility": [
