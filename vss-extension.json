@@ -1,0 +1,40 @@
+{
+    "manifestVersion": 1,
+    "id": "psake",
+    "name": "Psake",
+    "version": "4.5.0",
+    "publisher": "qetza",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "",
+    "categories": [
+        "Build and release"
+    ],
+    "tags": [
+        "build",
+        "psake"  
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "task"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "psake-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "task"
+            }
+        }
+    ]
+}

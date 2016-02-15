@@ -1,0 +1,20 @@
+{
+	"version": "0.1.0",
+	"command": "cmd",
+	"isShellCommand": true,
+	"showOutput": "always",
+	"args": ["/c"],
+    "tasks": [
+        {
+            "taskName": "build",
+            "suppressTaskName": true,
+            "isBuildCommand": true,
+            "args": [
+                "xcopy",
+                "${workspaceRoot}\\node_modules\\vsts-task-sdk\\VstsTaskSdk", 
+                "${workspaceRoot}\\task\\ps_modules\\VstsTaskSdk\\", 
+                "/EY"
+            ]
+        }
+    ]
+}
