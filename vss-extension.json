@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "psake",
     "name": "Psake",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "publisher": "qetza",
     "targets": [
         {
@@ -35,8 +35,8 @@
         "default": "images/extension-icon.png"
     },
     "branding": {
-        "color": "#9BBB59",
-        "theme": "dark"
+        "color": "#EEEEEE",
+        "theme": "light"
     },
     "screenshots": [
         {
