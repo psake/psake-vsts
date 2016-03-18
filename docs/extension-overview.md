@@ -8,5 +8,5 @@ This extension contains a build task that run [psake](https://github.com/psake/p
 4. Configure the build step.
 
 ##Links
-- [File an issue](https://github.com/qetza/vsts-psake-task/issues)
-- [View or contribute to the source code](https://github.com/qetza/vsts-psake-task/)
+- [File an issue](https://github.com/psake/psake-vsts/issues)
+- [View or contribute to the source code](https://github.com/psake/psake-vsts/)

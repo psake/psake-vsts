@@ -1,12 +1,12 @@
 {
-  "name": "qetza.vsts-psake-task",
+  "name": "qetza.psake-vsts",
   "version": "0.1.0",
   "description": "Build task for VS Team Services that can run psake build scripts.",
   "author": "Guillaume Rouchon",
   "license": "MIT",
-  "homepage": "https://github.com/qetza/vsts-psake-task#readme",
+  "homepage": "https://github.com/psake/psake-vsts#readme",
   "bugs": {
-    "url": "https://github.com/qetza/vsts-psake-task/issues"
+    "url": "https://github.com/psake/psake-vsts/issues"
   },
   "keywords": [
       "VSTS",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qetza/vsts-psake-task.git"
+    "url": "git+https://github.com/psake/psake-vsts.git"
   },
   "devDependencies": {
     "vsts-task-sdk": "^0.5.1"

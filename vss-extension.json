@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "psake",
     "name": "Psake",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "public": true,
     "publisher": "qetza",
     "targets": [
@@ -20,18 +20,18 @@
     ],
     "links": {
         "learn": {
-            "uri": "https://github.com/qetza/vsts-psake-task#readme"
+            "uri": "https://github.com/psake/psake-vsts#readme"
         },
         "support": {
-            "uri": "https://github.com/qetza/vsts-psake-task/issues"  
+            "uri": "https://github.com/psake/psake-vsts/issues"  
         }
     },
     "icons": {
         "default": "images/extension-icon.png"
     },
     "branding": {
-        "color": "#EEEEEE",
-        "theme": "light"
+        "color": "#66B28E",
+        "theme": "dark"
     },
     "screenshots": [
         {

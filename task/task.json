@@ -3,7 +3,7 @@
   "name": "psake",
   "friendlyName": "Psake",
   "description": "Build with the psake build system",
-  "helpMarkDown": "[More Information](https://github.com/psake/vsts-psake-task#readme)",
+  "helpMarkDown": "v4.5.1 - [More Information](https://github.com/psake/psake-vsts#readme)",
   "category": "Build",
   "visibility": [
     "Build"
@@ -12,7 +12,7 @@
   "version": {
     "Major": 4,
     "Minor": 5,
-    "Patch": 0
+    "Patch": 1
   },
   "minimumAgentVersion": "1.92.0",
   "groups": [
