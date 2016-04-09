@@ -48,12 +48,7 @@ try {
     [string] $framework = Get-VstsInput -Name Framework
     [bool] $noLogo = Get-VstsInput -Name NoLogo -AsBool
 
-    Write-Verbose "buildFile = ${buildFile}"
-    Write-Verbose "tasks = ${inputTasks}"
-    Write-Verbose "parameters = ${inputParameters}"
-    Write-Verbose "properties = ${inputProperties}"
-    Write-Verbose "framework = ${framework}"
-    Write-Verbose "noLogo = ${noLogo}"
+    $PSBoundParameters.Keys | % { Write-Verbose "${_} = $($PSBoundParameters[$_])" }
 
     # validate inputs
     if (!(Test-Path $buildFile))
@@ -65,10 +60,21 @@ try {
     $tasks = _ExpandToArray $inputTasks
     $parameters = _ExpandToHashtable $inputParameters
     $properties = _ExpandToHashtable $inputProperties
+    
+    if ($framework -eq 'default')
+    {
+        $framework = $null
+    } 
 
     # invoke script
     Import-Module -Name $PSScriptRoot\ps_modules\psake\psake.psm1
     Invoke-psake -buildFile $buildFile -taskList $tasks -parameters $parameters -properties $properties -framework $framework -nologo:$noLogo
+
+    Write-Verbose "build_success: $($psake.build_success)"
+    if (!$psake.build_success)
+    {
+        Write-Error "Invoke-psake exited with build_success '$($psake.build_success)'."
+    }
 }
 finally
 {

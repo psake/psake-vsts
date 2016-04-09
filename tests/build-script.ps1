@@ -3,7 +3,7 @@ Properties {
     $parameterizedProperty = "[${p1}] [${p2}] [${p3}] [${p4}]"
 }
 
-Task Default -Depends LogScript,LogFramework,LogProperties
+Task Default -Depends LogScript,LogFramework,LogProperties,Error
 
 Task LogScript {
     Write-Host "script: $($psake.build_script_file)"
@@ -16,4 +16,8 @@ Task LogFramework {
 Task LogProperties {
     Write-Host "overridableProperty ${overridableProperty}"
     Write-Host "parameterizedProperty: ${parameterizedProperty}"
+}
+
+Task Error {
+    throw 'oops...'
 }
