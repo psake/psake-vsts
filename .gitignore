@@ -1,2 +1,4 @@
 node_modules/
+_build/
+_packages/
 *.vsix
