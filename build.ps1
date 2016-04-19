@@ -41,11 +41,11 @@ Task Clean {
 
 Task UpdateBuildNumber {
     # set build number to extension version
-    $path = Join-Path $buildPath 'vss-extension.json'
-    $metadata = Get-Content $path -Raw | ConvertFrom-Json
+    $manifestPath = Join-Path $srcPath 'vss-extension.json'
+    $manifestData = Get-Content $manifestPath -Raw | ConvertFrom-Json
     
-    Write-Host "##vso[build.updatebuildnumber]psake-extension_$($metadata.version)+${env:BUILD_BUILDID}"
-    Write-Host "##vso[task.setvariable variable=Extension.Version;]$($metadata.version)"
+    Write-Host "##vso[build.updatebuildnumber]psake-extension_$($manifestData.version)+${env:BUILD_BUILDID}"
+    Write-Host "##vso[task.setvariable variable=Extension.Version;]$($manifestData.version)"
 }
 
 Task PublishDev {
@@ -66,15 +66,15 @@ Task PublishDev {
     $patch = [Math]::Floor([Math]::Floor($now.TimeOfDay.TotalSeconds) * 0.5)
     $version = "${major}.${minor}.${patch}"
     
-    # update metadata
-    _UpdateExtensionMetaData -IdTag '-dev' -NameTag ' (dev)' -Version $version
-    _UpdateTaskMetadata -Id '7011cf27-c181-443a-9f07-3e6ffea72b6b' -NameTag '-dev' -FriendlyNameTag " (dev ${version})" -Version $version
+    # update manifest
+    _UpdateExtensionManifest -IdTag '-dev' -NameTag ' (dev)' -Version $version
+    _UpdateTaskManifest -Id '7011cf27-c181-443a-9f07-3e6ffea72b6b' -NameTag '-dev' -FriendlyNameTag " (dev ${version})" -Version $version
     
     # publish extension
     _PublishExtension
 }
 
-Function _UpdateExtensionMetaData
+Function _UpdateExtensionManifest
 {
     param(
         [string] $IdTag,
@@ -83,35 +83,35 @@ Function _UpdateExtensionMetaData
         [switch] $Public
     )
     
-    $path = Join-Path $buildPath 'vss-extension.json'
-    $metadata = Get-Content $path -Raw | ConvertFrom-Json
+    $manifestPath = Join-Path $buildPath 'vss-extension.json'
+    $manifestData = Get-Content $manifestPath -Raw | ConvertFrom-Json
     
     Write-Host "Adding tag '${IdTag}' to extension id..."
-    $metadata.id = $metadata.id -replace '#{IdTag}',$IdTag
+    $manifestData.id = $manifestData.id -replace '#{IdTag}',$IdTag
     
     Write-Host "Adding tag '${NameTag}' to extension name..."
-    $metadata.name = $metadata.name -replace '#{NameTag}',$NameTag
+    $manifestData.name = $manifestData.name -replace '#{NameTag}',$NameTag
     
     Write-Host "Updating extension version to '${Version}'..."
-    $metadata.version = $Version
+    $manifestData.version = $Version
 
-    if (!$Public -and $metadata.public)
+    if (!$Public -and $manifestData.public)
     {
         Write-Host 'Removing extension public flag...'
-        $metadata = $metadata | Select-Object -Property * -ExcludeProperty 'public'
+        $manifestData = $manifestData | Select-Object -Property * -ExcludeProperty 'public'
     }
     
-    if ($Public -and !$metadata.public)
+    if ($Public -and !$manifestData.public)
     {
         Write-Host 'Adding extension public flag...'
-        Add-Member -InputObject $metadata -NotePropertyName "public" -NotePropertyValue $true -Force
+        Add-Member -InputObject $manifestData -NotePropertyName "public" -NotePropertyValue $true -Force
     }
     
-    Write-Host "Updating extension file '${path}'..."
-    ConvertTo-Json $metadata -Depth 20 | Out-File $path -Encoding utf8 -Force
+    Write-Host "Updating extension file '${manifestPath}'..."
+    ConvertTo-Json $manifestData -Depth 20 | Out-File $manifestPath -Encoding utf8 -Force
 }
 
-Function _UpdateTaskMetadata
+Function _UpdateTaskManifest
 {
     param(
         [string] $Id,
@@ -120,29 +120,29 @@ Function _UpdateTaskMetadata
         [string] $Version
     )
     
-    $path = Join-Path $buildPath 'task\task.json'
-    $metadata = Get-Content $path -Raw | ConvertFrom-Json
+    $manifestPath = Join-Path $buildPath 'task\task.json'
+    $manifestData = Get-Content $manifestPath -Raw | ConvertFrom-Json
 
     Write-Host "Updating task id to '${Id}'..."
-    $metadata.id = $metadata.id -replace  '#{Task.Id}',$Id
+    $manifestData.id = $manifestData.id -replace  '#{Task.Id}',$Id
     
     Write-Host "Adding tag '${NameTag}' to task name..."
-    $metadata.name = $metadata.name -replace '#{IdTag}',$NameTag
+    $manifestData.name = $manifestData.name -replace '#{IdTag}',$NameTag
     
     Write-Host "Adding tag '${FriendlyNameTag}' to task friendly name..."
-    $metadata.friendlyName = $metadata.friendlyName -replace '#{NameTag}',$FriendlyNameTag
+    $manifestData.friendlyName = $manifestData.friendlyName -replace '#{NameTag}',$FriendlyNameTag
     
     Write-Host "Updating task version to '${Version}'..."
     $parsedVersion = [Version]::Parse($Version)
-    $metadata.version.major = $parsedVersion.Major
-    $metadata.version.minor = $parsedVersion.Minor
-    $metadata.version.patch = $parsedVersion.Build
+    $manifestData.version.major = $parsedVersion.Major
+    $manifestData.version.minor = $parsedVersion.Minor
+    $manifestData.version.patch = $parsedVersion.Build
     
     Write-Host "Adding version to task help..."
-    $metadata.helpMarkDown = $metadata.helpMarkDown -replace '#{Task.Version}',$Version
+    $manifestData.helpMarkDown = $manifestData.helpMarkDown -replace '#{Task.Version}',$Version
     
-    Write-Host "Updating task file '${path}'..."
-    ConvertTo-Json $metadata -Depth 20 | Out-File $path -Encoding utf8 -Force
+    Write-Host "Updating task file '${manifestPath}'..."
+    ConvertTo-Json $manifestData -Depth 20 | Out-File $manifestPath -Encoding utf8 -Force
 }
 
 Function _PublishExtension
