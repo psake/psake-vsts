@@ -10,9 +10,9 @@
   ],
   "author": "Guillaume Rouchon",
   "version": {
-    "major": 0,
-    "minor": 1,
-    "patch": 0
+    "major": 4,
+    "minor": 5,
+    "patch": 2
   },
   "minimumAgentVersion": "1.92.0",
   "groups": [
