@@ -1,6 +1,6 @@
 {
   "id": "#{Task.Id}",
-  "name": "psake#{IdTag}",
+  "name": "psake",
   "friendlyName": "Psake#{NameTag}",
   "description": "Build with the psake build system",
   "helpMarkDown": "v#{Task.Version}, [More Information](https://github.com/psake/psake-vsts#readme)",

@@ -1,6 +1,6 @@
 {
     "manifestVersion": 1,
-    "id": "psake#{IdTag}",
+    "id": "psake",
     "name": "Psake#{NameTag}",
     "version": "1.1.1",
     "publisher": "qetza",

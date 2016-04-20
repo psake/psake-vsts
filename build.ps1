@@ -13,12 +13,20 @@ Task Default -Depends Build
 
 Task Build -Depends Clean {
     # copy extension files
+    Write-Host "Copying folder 'docs'..."
     Copy-Item -Path (Join-Path $srcPath 'docs') -Destination (Join-Path $buildPath 'docs') -Recurse
+    
+    Write-Host "Copying folder 'images'..."
     Copy-Item -Path (Join-Path $srcPath 'images') -Destination (Join-Path $buildPath 'images') -Recurse
+    
+    Write-Host "Copying file 'LICENSE.txt'..."
     Copy-Item -Path (Join-Path $srcPath 'LICENSE.txt') -Destination $buildPath
+    
+    Write-Host "Copying file 'vss-extension.json'..."
     Copy-Item -Path (Join-Path $srcPath 'vss-extension.json') -Destination $buildPath
     
     # copy task files
+    Write-Host "Copying folder 'task'..."
     Copy-Item -Path (Join-Path $srcPath 'task') -Destination (Join-Path $buildPath 'task') -Recurse
     
     # copy librairies files
@@ -28,6 +36,7 @@ Task Build -Depends Clean {
         throw "Directory '${libPath}' not found."
     }
     
+    Write-Host "Copying library 'VstsTaskSdk'..."
     Copy-Item -Path $libPath -Destination (Join-Path $buildPath 'task\ps_modules\VstsTaskSdk') -Recurse
 }
 
@@ -43,8 +52,10 @@ Task UpdateBuildNumber {
     # set build number to extension version
     $manifestPath = Join-Path $srcPath 'vss-extension.json'
     $manifestData = Get-Content $manifestPath -Raw | ConvertFrom-Json
-    
-    Write-Host "##vso[build.updatebuildnumber]psake-extension_$($manifestData.version)+${env:BUILD_BUILDID}"
+
+    $buildNumber =  "psake-extension_$($manifestData.version)+${env:BUILD_BUILDID}"
+    Write-Host "Setting build number to '${buildNumber}'..."
+    Write-Host "##vso[build.updatebuildnumber]${buildNumber}"
     Write-Host "##vso[task.setvariable variable=Extension.Version;]$($manifestData.version)"
 }
 
@@ -67,8 +78,8 @@ Task PublishDev {
     $version = "${major}.${minor}.${patch}"
     
     # update manifest
-    _UpdateExtensionManifest -IdTag '-dev' -NameTag ' (dev)' -Version $version
-    _UpdateTaskManifest -Id '7011cf27-c181-443a-9f07-3e6ffea72b6b' -NameTag '-dev' -FriendlyNameTag " (dev ${version})" -Version $version
+    _UpdateExtensionManifest -Tag 'dev' -Version $version
+    _UpdateTaskManifest -Id '7011cf27-c181-443a-9f07-3e6ffea72b6b' -NameTag " (dev ${version})" -Version $version
     
     # publish extension
     _PublishExtension
@@ -77,20 +88,23 @@ Task PublishDev {
 Function _UpdateExtensionManifest
 {
     param(
-        [string] $IdTag,
-        [string] $NameTag,
+        [string] $Tag,
         [string] $Version,
         [switch] $Public
     )
     
+    Write-Host "Updating extension manifest..."
     $manifestPath = Join-Path $buildPath 'vss-extension.json'
     $manifestData = Get-Content $manifestPath -Raw | ConvertFrom-Json
     
-    Write-Host "Adding tag '${IdTag}' to extension id..."
-    $manifestData.id = $manifestData.id -replace '#{IdTag}',$IdTag
+    if ($Tag)
+    {
+        Write-Host "Adding tag '${Tag}' to extension id..."
+        $manifestData.id = "$($manifestData.id)-${Tag}"
+    }
     
-    Write-Host "Adding tag '${NameTag}' to extension name..."
-    $manifestData.name = $manifestData.name -replace '#{NameTag}',$NameTag
+    Write-Host "Adding tag '${Tag}' to extension name..."
+    $manifestData.name = $manifestData.name -replace '#{NameTag}'," (${Tag})"
     
     Write-Host "Updating extension version to '${Version}'..."
     $manifestData.version = $Version
@@ -116,21 +130,18 @@ Function _UpdateTaskManifest
     param(
         [string] $Id,
         [string] $NameTag,
-        [string] $FriendlyNameTag,
         [string] $Version
     )
     
+    Write-Host "Updating task manifest..."
     $manifestPath = Join-Path $buildPath 'task\task.json'
     $manifestData = Get-Content $manifestPath -Raw | ConvertFrom-Json
 
     Write-Host "Updating task id to '${Id}'..."
     $manifestData.id = $manifestData.id -replace  '#{Task.Id}',$Id
-    
-    Write-Host "Adding tag '${NameTag}' to task name..."
-    $manifestData.name = $manifestData.name -replace '#{IdTag}',$NameTag
-    
-    Write-Host "Adding tag '${FriendlyNameTag}' to task friendly name..."
-    $manifestData.friendlyName = $manifestData.friendlyName -replace '#{NameTag}',$FriendlyNameTag
+        
+    Write-Host "Adding tag '${NameTag}' to task friendly name..."
+    $manifestData.friendlyName = $manifestData.friendlyName -replace '#{NameTag}',$NameTag
     
     Write-Host "Updating task version to '${Version}'..."
     $parsedVersion = [Version]::Parse($Version)
