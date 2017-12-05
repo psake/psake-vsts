@@ -1,6 +1,6 @@
 {
   "name": "qetza.psake-vsts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Build task for VS Team Services that can run psake build scripts.",
   "author": "Guillaume Rouchon",
   "license": "MIT",

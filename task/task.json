@@ -11,8 +11,8 @@
   "author": "Guillaume Rouchon",
   "version": {
     "major": 4,
-    "minor": 5,
-    "patch": 2
+    "minor": 7,
+    "patch": 1
   },
   "minimumAgentVersion": "1.92.0",
   "groups": [
@@ -90,7 +90,16 @@
         "4.6x64": "4.6 x64",
         "4.6.1": "4.6.1",
         "4.6.1x86": "4.6.1 x86",
-        "4.6.1x64": "4.6.1 x64"
+        "4.6.1x64": "4.6.1 x64",
+        "4.6.2": "4.6.2",
+        "4.6.2x86": "4.6.2 x86",
+        "4.6.2x64": "4.6.2 x64",
+        "4.7": "4.7",
+        "4.7x86": "4.7 x86",
+        "4.7x64": "4.7 x64",
+        "4.7.1": "4.7.1",
+        "4.7.1x86": "4.7.1 x86",
+        "4.7.1x64": "4.7.1 x64"
       },
       "helpMarkDown": "The version of the .NET framework you want to use during build. You can append x86 or x64 to force a specific framework. If not specified, x86 or x64 will be detected based on the bitness of the PowerShell process."
     },
