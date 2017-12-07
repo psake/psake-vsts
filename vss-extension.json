@@ -1,28 +1,28 @@
 {
-    "manifestVersion": 1,
+    "manifestVersion": 2,
     "id": "psake",
     "name": "Psake#{NameTag}",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "publisher": "qetza",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
-    ],    
+    ],
     "description": "Tools for building with psake.",
     "categories": [
         "Build and release"
     ],
     "tags": [
         "build",
-        "psake"  
+        "psake"
     ],
     "links": {
         "learn": {
             "uri": "https://github.com/psake/psake-vsts#readme"
         },
         "support": {
-            "uri": "https://github.com/psake/psake-vsts/issues"  
+            "uri": "https://github.com/psake/psake-vsts/issues"
         }
     },
     "icons": {
